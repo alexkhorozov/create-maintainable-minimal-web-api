@@ -16,29 +16,36 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+// Get a collection of data
+app.MapGet("/product", () => 
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return Results.Ok(new List<Product> 
+    {
+        new Product 
+        {
+            ProductID = 706,
+            Name = "HL Road Frame - Red, 58",
+            Color = "Red", 
+            ListPrice = 1500.00m
+        },
+        new Product 
+        {
+            ProductID = 707,
+            Name = "Sport-100 Helmet, Red",
+            Color = "Red", 
+            ListPrice = 34.99m
+        }
+    });
 })
-.WithName("GetWeatherForecast")
+.WithName("GetProducts")
 .WithOpenApi();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+public partial class Product 
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public int ProductID { get; set; }
+    public string Name { get; set; }
+    public string Color { get; set; }
+    public decimal ListPrice { get; set; }
 }

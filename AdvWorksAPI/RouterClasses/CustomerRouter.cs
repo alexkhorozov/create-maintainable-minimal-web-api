@@ -1,59 +1,65 @@
 ﻿namespace AdvWorksAPI;
 
-public class ProductRouter : RouterBase
+public class CustomerRouter : RouterBase
 {
-    public ProductRouter(ILogger<ProductRouter> logger)
+    public CustomerRouter(ILogger<CustomerRouter> logger)
     {
-        UrlFragment = "product";
+        UrlFragment = "customer";
         Logger = logger;
 
     }
 
     /// <summary>
-    /// Get a collection of Product objects
+    /// Get a collection of Customer objects
     /// </summary>
-    /// <returns>A list of Product objects</returns>
-    protected virtual List<Product> GetAll()
+    /// <returns>A list of Customer objects</returns>
+    private List<Customer> GetAll()
     {
-        return new List<Product>
+        return new List<Customer>
     {
-        new Product
+        new Customer
         {
-            ProductID = 706,
-            Name = "HL Road Frame - Red, 58",
-            Color = "Red",
-            ListPrice = 1500.0000m
+            CustomerID = 1,
+            FirstName = "Orlando",
+            LastName = "Gee",
+            CompanyName = "A Bike Store",
+            EmailAddress = "orlando0@adventure-works.com",
         },
-        new Product
+        new Customer
         {
-            ProductID = 707,
-            Name = "Sport-100 Helmet, Red",
-            Color = "Red",
-            ListPrice = 34.9900m
+            CustomerID = 2,
+            FirstName = "Keith",
+            LastName = "Harris",
+            CompanyName = "Progressive Sports",
+            EmailAddress = "keith0@adventure-works.com",
         },
-        new Product
+        new Customer
         {
-            ProductID = 708,
-            Name = "Sport-100 Helmet, Black",
-            Color = "Black",
-            ListPrice = 34.9900m
+            CustomerID = 3,
+            FirstName = "Donna",
+            LastName = "Carreras",
+            CompanyName = "Advanced Bike Components",
+            EmailAddress = "donna0@adventure-works.com",
         },
-        new Product
+        new Customer
         {
-            ProductID = 709,
-            Name = "Mountain Bike Socks, M",
-            Color = "White",
-            ListPrice = 9.5000m
+            CustomerID = 4,
+            FirstName = "Janet",
+            LastName = "Gates",
+            CompanyName = "Modular Cycle Systems",
+            EmailAddress = "janet1@adventure-works.com",
         },
-        new Product
+        new Customer
         {
-            ProductID = 710,
-            Name = "Mountain Bike Socks, L",
-            Color = "White",
-            ListPrice = 9.5000m
+            CustomerID = 5,
+            FirstName = "Lucy",
+            LastName = "Harrington",
+            CompanyName = "Metropolitan Sports Supply",
+            EmailAddress = "lucy0@adventure-works.com",
         }
     };
     }
+
 
     /// <summary>
     /// GET a collection of data
@@ -62,7 +68,7 @@ public class ProductRouter : RouterBase
     protected virtual IResult Get()
     {
         // Write a log entry
-        Logger.LogInformation("Getting all products");
+        Logger.LogInformation("Getting all Customers");
         return Results.Ok(GetAll());
     }
 
@@ -73,7 +79,7 @@ public class ProductRouter : RouterBase
     protected virtual IResult Get(int id)
     {
         // Locate a single row of data
-        Product? current = GetAll().Find(p => p.ProductID == id);
+        Customer? current = GetAll().Find(p => p.CustomerID == id);
         if (current != null)
         {
             return Results.Ok(current);
@@ -88,35 +94,36 @@ public class ProductRouter : RouterBase
     /// INSERT new data
     /// </summary>
     /// <returns>An IResult object</returns>
-    protected virtual IResult Post(Product entity)
+    protected virtual IResult Post(Customer entity)
     {
         // Generate a new ID
-        entity.ProductID = GetAll().Max(p => p.ProductID) + 1;
+        entity.CustomerID = GetAll().Max(p => p.CustomerID) + 1;
 
         // TODO: Insert into data store
 
 
         // Return the new object created
-        return Results.Created($"/{UrlFragment}/{entity.ProductID}", entity);
+        return Results.Created($"/{UrlFragment}/{entity.CustomerID}", entity);
     }
 
     /// <summary>
     /// UPDATE existing data
     /// </summary>
     /// <returns>An IResult object</returns>
-    protected virtual IResult Put(int id, Product entity)
+    protected virtual IResult Put(int id, Customer entity)
     {
         IResult ret;
 
         // Locate a single row of data
-        Product? current = GetAll().Find(p => p.ProductID == id);
+        Customer? current = GetAll().Find(p => p.CustomerID == id);
 
         if (current != null)
         {
             // TODO: Update the entity
-            current.Name = entity.Name;
-            current.Color = entity.Color;
-            current.ListPrice = entity.ListPrice;
+            current.FirstName = entity.FirstName;
+            current.LastName = entity.LastName;
+            current.CompanyName = entity.CompanyName;
+            current.EmailAddress = entity.EmailAddress;
 
             // TODO: Update the data store
 
@@ -140,7 +147,7 @@ public class ProductRouter : RouterBase
         IResult ret;
 
         // Locate a single row of data
-        Product? current = GetAll().Find(p => p.ProductID == id);
+        Customer? current = GetAll().Find(p => p.CustomerID == id);
 
         if (current != null)
         {
@@ -167,8 +174,8 @@ public class ProductRouter : RouterBase
     {
         app.MapGet($"/{UrlFragment}", () => Get());
         app.MapGet($"/{UrlFragment}/{{id:int}}", (int id) => Get(id));
-        app.MapPost($"/{UrlFragment}", (Product entity) => Post(entity));
-        app.MapPut($"/{UrlFragment}/{{id:int}}", (int id, Product entity) =>
+        app.MapPost($"/{UrlFragment}", (Customer entity) => Post(entity));
+        app.MapPut($"/{UrlFragment}/{{id:int}}", (int id, Customer entity) =>
             Put(id, entity));
         app.MapDelete($"/{UrlFragment}/{{id:int}}", (int id) => Delete(id));
     }

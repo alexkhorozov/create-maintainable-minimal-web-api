@@ -1,0 +1,71 @@
+﻿@rootUrl = https://localhost:7204
+
+GET {{rootUrl}}/product
+###
+
+GET {{rootUrl}}/product/710
+###
+
+POST {{rootUrl}}/product
+Content-Type: application/json
+
+{
+    "productID": 0,
+    "name": "A New Product",
+    "color": "White",
+    "listPrice": 20
+}
+###
+
+PUT {{rootUrl}}/product/710
+Content-Type: application/json
+
+{
+    "productID": 710,
+    "name": "A Changed Product",
+    "color": "Red",
+    "listPrice": 1500.00
+}
+###
+
+DELETE {{rootUrl}}/product/710
+###
+
+GET {{rootUrl}}/customer
+
+###
+
+POST {{rootUrl}}/customer
+Content-Type: application/json
+
+{
+    "customerID": 0,
+    "name": "A New Customer",
+    "address": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "zip": "12345"
+}
+###
+
+GET {{rootUrl}}/customer/5
+
+###
+
+PUT {{rootUrl}}/customer/5
+Content-Type: application/json
+
+{
+    "customerID": 5,
+    "name": "A Changed Customer",
+    "address": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "zip": "12345"
+}
+
+###
+
+DELETE {{rootUrl}}/customer/5
+
+###

@@ -1,9 +1,23 @@
+using AdvWorksAPI;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add "Router" classes as a service
+// Add your "Router" classes as services
+builder.Services.AddScoped<RouterBase, ProductRouter>();
+builder.Services.AddScoped<RouterBase, CustomerRouter>();
+
+
 
 var app = builder.Build();
 
@@ -16,36 +30,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Get a collection of data
-app.MapGet("/product", () => 
+//*************************************
+// Add Routes from all "Router Classes"
+//*************************************
+using (var scope = app.Services.CreateScope())
 {
-    return Results.Ok(new List<Product> 
+    // Build collection of all RouterBase classes
+    var services = scope.ServiceProvider.GetServices<RouterBase>();
+
+    // Loop through each RouterBase class
+    foreach (var item in services)
     {
-        new Product 
-        {
-            ProductID = 706,
-            Name = "HL Road Frame - Red, 58",
-            Color = "Red", 
-            ListPrice = 1500.00m
-        },
-        new Product 
-        {
-            ProductID = 707,
-            Name = "Sport-100 Helmet, Red",
-            Color = "Red", 
-            ListPrice = 34.99m
-        }
-    });
-})
-.WithName("GetProducts")
-.WithOpenApi();
+        // Invoke the AddRoutes() method to add the routes
+        item.AddRoutes(app);
+    }
 
-app.Run();
-
-public partial class Product 
-{
-    public int ProductID { get; set; }
-    public string Name { get; set; }
-    public string Color { get; set; }
-    public decimal ListPrice { get; set; }
+    // Make sure this is called within the application scope
+    app.Run();
 }
+

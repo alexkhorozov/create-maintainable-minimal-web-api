@@ -1,4 +1,6 @@
-﻿namespace AdvWorksAPI;
+﻿using Microsoft.AspNetCore.OutputCaching;
+
+namespace AdvWorksAPI;
 
 public class ProductRouter : RouterBase
 {
@@ -13,6 +15,7 @@ public class ProductRouter : RouterBase
     /// Get a collection of Product objects
     /// </summary>
     /// <returns>A list of Product objects</returns>
+    [OutputCache]
     protected virtual List<Product> GetAll()
     {
         return new List<Product>

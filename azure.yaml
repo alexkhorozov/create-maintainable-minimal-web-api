@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: create-maintainable-minimal-web-api
+services:  
+  app:
+    language: dotnet
+    project: .\AdvWorksAPI.AppHost\AdvWorksAPI.AppHost.csproj
+    host: containerapp

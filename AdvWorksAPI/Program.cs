@@ -8,6 +8,11 @@ builder.AddServiceDefaults();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+builder.Services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(builder =>
+        builder.Expire(TimeSpan.FromSeconds(10)));
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

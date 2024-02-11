@@ -175,9 +175,4 @@ public class ProductRouter : RouterBase
             Put(id, entity));
         app.MapDelete($"/{UrlFragment}/{{id:int}}", (int id) => Delete(id));
     }
-
-
-
-
-
 }

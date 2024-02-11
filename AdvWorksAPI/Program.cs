@@ -24,8 +24,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<RouterBase, ProductRouter>();
 builder.Services.AddScoped<RouterBase, CustomerRouter>();
 
-
-
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
